@@ -6,16 +6,23 @@
 using namespace std;
 int award_points(string);
 int validate_word(string);
-void print_game_start();
+void print_game_start(char (&arr)[6]);
 char calculate_letter( char (&arr)[5][5]);
+char calculate_vowel(char (&arr)[5]);
 int main(){
     char c;
-    string inputString;
+    char random_letters[6];// = {'a','b','c','d','e','f'};
     int points;
     srand(time(0));
 
-    print_game_start();
-    int seconds = 60;
+    print_game_start(random_letters);
+    for(int i = 0; i < (sizeof(random_letters)/sizeof(char)); i++)
+    {
+        cout << random_letters[i] << " ";
+    }
+    cout << endl;
+    
+    int seconds = 0;
     while (seconds > 0) {
         if(seconds == 15 || seconds == 30){
             std::cout << seconds << " SECONDS LEFT!!! 😱😱😱 " <<  std::endl;
@@ -57,7 +64,7 @@ int award_points(string inputString){
     int array[] = {100,400,800,2000};
     return(array[inputString.length()-3]);
 }
-void print_game_start()
+void print_game_start(char (&arr)[6])
 {
     cout << "ANAGRAMS 🎲😹" << endl << "press any button to start game: ";
     string s;
@@ -67,11 +74,17 @@ void print_game_start()
         // groups with higher frequencies have a higher chance to be chosen
         // RTNSL 4 CDPMH 3 GBFYW  2 KVXZJQ 1
         // eaiou
-        char array[5][5]={{'R','T','N','S','L'}, {'C', 'D', 'P', 'M', 'H'}, {'G', 'B', 'F', 'Y', 'W'}, {'K','V','X','Z','J'},{'Q'}};
-        for(int i = 0; i < 6; i++ ){
-            char randomLetter = calculate_letter(array);
+        char consonents[5][5]={{'R','T','N','S','L'}, {'C', 'D', 'P', 'M', 'H'}, {'G', 'B', 'F', 'Y', 'W'}, {'K','V','X','Z','J'},{'Q'}};
+        char vowels[] = {'E', 'A', 'I', 'O', 'U'};
+        for(int i = 0; i < 2; i++){
+            char randomVowel = calculate_vowel(vowels);
+            arr[i] = randomVowel;
+        }
+        for(int i = 2; i < 6; i++ ){
+            char randomLetter = calculate_letter(consonents);
             //char randomLetter = 'A' + (rand() % 26);
-            cout << randomLetter << " ";
+            arr[i] = randomLetter;
+            //cout << randomLetter << " ";
         }
         cout << endl;
     }
@@ -99,4 +112,8 @@ char calculate_letter(char (&arr)[5][5]){
         return arr[0][key];
     }
     return 'a';
+}
+char calculate_vowel(char (&arr)[5]){
+    int key = rand() % 5;
+    return arr[key];
 }
